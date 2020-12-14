@@ -1,8 +1,23 @@
 [tool.poetry]
 name = "pmon"
 version = "0.1.0"
-description = ""
+description = "A process monitor for linux"
 authors = ["Panos Mavrogiorgos <pmav99@gmail.com>"]
+license = "MIT"
+readme = 'README.md'  # Markdown files are supported
+repository = "https://github.com/pmav99/pmon"
+homepage = "https://github.com/pmav99/pmon"
+keywords=['cli', 'typer', 'process', 'monitor']
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Environment :: Console",
+    "Topic :: Software Development",
+    "Topic :: System",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.6"
