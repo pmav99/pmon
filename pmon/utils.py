@@ -15,7 +15,7 @@ __all__: List[str] = [
 
 
 SYMBOLS = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
-ATTRS = ("memory_full_info", "memory_percent", "cpu_percent")
+ATTRS = ("memory_full_info", "cpu_percent")
 HEADER = "\t".join("rss,vms,shared,pss,swap,uss,cpu (%),mem (%)".split(","))
 VERBOSE_HEADER = "\t".join("rss,vms,shared,text,lib,data,dirty,pss,swap,uss,cpu (%),mem (%)".split(","))
 
@@ -31,7 +31,8 @@ def to_bytes(n: int) -> str:
     return f"{n}B"
 
 
-def get_line(info, memory_full_info: Dict[str, Any]):
+def get_line(info: Dict[str, Any]) -> str:
+    memory_full_info = info["memory_full_info"]._asdict()
     line = "\t".join([
         to_bytes(memory_full_info["rss"]),
         to_bytes(memory_full_info["vms"]),
@@ -45,7 +46,8 @@ def get_line(info, memory_full_info: Dict[str, Any]):
     return line
 
 
-def get_verbose_line(info, memory_full_info: Dict[str, Any]):
+def get_verbose_line(info: Dict[str, Any]) -> str:
+    memory_full_info = info["memory_full_info"]._asdict()
     line = "\t".join([
         to_bytes(memory_full_info["rss"]),
         to_bytes(memory_full_info["vms"]),
@@ -74,13 +76,14 @@ def get_proc(pid: int):
 
 def get_proc_data(proc: psutil.Process, verbose: bool = False, attrs: Tuple[str] = ATTRS) -> str:
     try:
-        info = proc.as_dict(attrs=attrs)
-        memory_full_info = info["memory_full_info"]._asdict()
+        with proc.oneshot():
+            info = proc.as_dict(attrs=attrs)
+            info["memory_percent"] = proc.memory_percent("uss")
     except psutil.NoSuchProcess:
         raise ValueError(f"The process no longer exists: {proc.pid}")
     else:
         if verbose:
-            line = get_verbose_line(info, memory_full_info)
+            line = get_verbose_line(info)
         else:
-            line = get_line(info, memory_full_info)
+            line = get_line(info)
         return line
