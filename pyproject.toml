@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pmon"
+version = "0.1.0"
+description = ""
+authors = ["Panos Mavrogiorgos <pmav99@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+psutil = "^5.7.3"
+typer = {version = "^0.3.2", extras = ["all"]}
+
+[tool.poetry.dev-dependencies]
+ipython = "*"
+
+[tool.poetry.scripts]
+pmon = "pmon.cli:app"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
