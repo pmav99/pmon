@@ -65,7 +65,7 @@ def get_verbose_line(info: Dict[str, Any]) -> str:
     return line
 
 
-def get_proc(pid: int):
+def get_proc(pid: int) -> psutil.Process:
     try:
         proc = psutil.Process(pid)
     except psutil.NoSuchProcess:
