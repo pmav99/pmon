@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pmon"
-version = "0.1.1"
+version = "0.2.0"
 description = "A process monitor for linux"
 authors = ["Panos Mavrogiorgos <pmav99@gmail.com>"]
 license = "MIT"
