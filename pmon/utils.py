@@ -18,16 +18,23 @@ SYMBOLS = ('K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y')
 ATTRS = ("memory_full_info", "cpu_percent")
 HEADER = "\t".join("rss,vms,shared,pss,swap,uss,cpu (%),mem (%)".split(","))
 VERBOSE_HEADER = "\t".join("rss,vms,shared,text,lib,data,dirty,pss,swap,uss,cpu (%),mem (%)".split(","))
+PREFIX = {
+    'K': 1024,
+    'M': 1048576,
+    'G': 1073741824,
+    'T': 1099511627776,
+    'P': 1125899906842624,
+    'E': 1152921504606846976,
+    'Z': 1180591620717411303424,
+    'Y': 1208925819614629174706176,
+}
 
 
 def to_bytes(n: int) -> str:
-    prefix = {}
-    for i, symbol in enumerate(SYMBOLS):
-        prefix[symbol] = 1 << (i + 1) * 10
     for symbol in reversed(SYMBOLS):
-        if n >= prefix[symbol]:
-            value = float(n) / prefix[symbol]
-            return f"{value:.2f}{symbol}"
+        if n >= PREFIX[symbol]:
+            value = float(n) / PREFIX[symbol]
+            return f"{value:.3f}{symbol}"
     return f"{n}B"
 
 
