@@ -61,7 +61,7 @@ def monitor(
     ram: RAMVerbosity = typer.Option(RAMVerbosity.default, help="Choose the verbosity of the RAM output"),
     interval: float = typer.Option(0.5, min=0.01, help="The update interval in seconds"),
     color: bool = typer.Option(True, help="Use colored output"),
-    show_header: int = typer.Option(20, min=0, help="Show the header line every N intervals. Use 0 to disable"),
+    repeat_header: int = typer.Option(20, min=0, help="Repeat the header line every N intervals. Use 0 to disable"),
 ) -> None:
     try:
         proc = get_proc(pid)
@@ -80,9 +80,9 @@ def monitor(
         line = _get_line(ram, data)
         typer.echo(line)
         time.sleep(interval)
-        if show_header:
+        if repeat_header:
             i += 1
-            if i == show_header:
+            if i == repeat_header:
                 typer.echo(header)
                 i = 0
 
