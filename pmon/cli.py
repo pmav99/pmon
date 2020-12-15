@@ -58,8 +58,8 @@ app = typer.Typer()
 @app.command(help="Process monitor for linux")
 def monitor(
     pid: int = typer.Argument(..., help="The pid of the process you want to monitor"),
-    interval: float = typer.Option(0.5, min=0.1, help="The update interval in seconds"),
     ram: RAMVerbosity = typer.Option(RAMVerbosity.default, help="Choose the verbosity of the RAM output"),
+    interval: float = typer.Option(0.5, min=0.01, help="The update interval in seconds"),
     color: bool = typer.Option(True, help="Use colored output"),
     show_header: int = typer.Option(20, min=0, help="Show the header line every N intervals. Use 0 to disable"),
 ) -> None:
