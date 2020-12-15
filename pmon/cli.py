@@ -25,6 +25,7 @@ def monitor(
     interval: float = typer.Option(0.5, min=0.1, help="The update interval in seconds"),
     verbose: bool = typer.Option(False, help="Use verbose output"),
     color: bool = typer.Option(True, help="Use colored output"),
+    show_header: int = typer.Option(20, min=0, help="Show the header line every N intervals. Use 0 to disable"),
 ):
     try:
         proc = get_proc(pid)
@@ -42,10 +43,11 @@ def monitor(
             raise typer.Exit(1)
         typer.echo(line.expandtabs(10))
         time.sleep(interval)
-        i += 1
-        if i == 20:
-            typer.echo(header)
-            i = 0
+        if show_header:
+            i += 1
+            if i == show_header:
+                typer.echo(header)
+                i = 0
 
 
 # handle Ctrl-C
